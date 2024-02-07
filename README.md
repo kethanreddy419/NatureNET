@@ -5,7 +5,6 @@ We want to stablize development process using feature branches, pull request, an
 branches:
     * `main`: stable product branch
     * `dev`: default branch for development
-
 <br/><br/><br/>
 ## Intialization
 
@@ -17,7 +16,6 @@ cd ./nature-net
 git switch main
 git switch dev
 ```
-
 <br/><br/><br/>
 ## Creating new feature branch
 
@@ -28,11 +26,8 @@ git fetch
 ```
 git checkout -b <feature name> dev
 ```
-
 <br/><br/><br/>
 ***Now you develop the feature!***
-<br/><br/><br/>
-
 <br/><br/><br/>
 ## Committing to the feature branch
 
@@ -48,7 +43,6 @@ git push -u origin <feature name>
 ```
 
 > let's commit small and often
-
 <br/><br/><br/>
 ## Creating pull request
 
@@ -59,7 +53,6 @@ git push -u origin <feature name>
 5. click `Create pull request`
 
 If there is a `merge conflict` we can resolve as a team. If not, review can be done quick.
-
 <br/><br/><br/>
 ## Deleting the feature branch
 
