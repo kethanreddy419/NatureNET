@@ -3,9 +3,10 @@
 We want to stablize development process using feature branches, pull request, and merge. So, We create new feature branches off of the dev branch and merge to the dev branch
 
 branches:
-    * `main`: stable product branch
-    * `dev`: default branch for development
-<br/><br/><br/>
+* `main`: stable product branch
+* `dev`: default branch for development
+
+***
 ## Intialization
 
 to clone the repo & track remote branches:
@@ -16,7 +17,8 @@ cd ./nature-net
 git switch main
 git switch dev
 ```
-<br/><br/><br/>
+
+***
 ## Creating new feature branch
 
 to create a new branch to develop new feature
@@ -26,9 +28,10 @@ git fetch
 ```
 git checkout -b <feature name> dev
 ```
-<br/><br/><br/>
-***Now you develop the feature!***
-<br/><br/><br/>
+
+***<p style="text-align: center;">You can now develop your feature!</p>***
+
+***
 ## Committing to the feature branch
 
 to commit changes to the branch:
@@ -43,7 +46,8 @@ git push -u origin <feature name>
 ```
 
 > let's commit small and often
-<br/><br/><br/>
+
+***
 ## Creating pull request
 
 1. go to our GitHub repository
@@ -53,7 +57,8 @@ git push -u origin <feature name>
 5. click `Create pull request`
 
 If there is a `merge conflict` we can resolve as a team. If not, review can be done quick.
-<br/><br/><br/>
+
+***
 ## Deleting the feature branch
 
 After merging, we can delete the feature branch
@@ -70,6 +75,7 @@ git checkout dev
 ```
 git branch -d <feature name>
 ```
-<br/><br/><br/>
+
+***
 # Project Proposal
 <https://docs.google.com/document/d/1YZhjfzQi5ABrWiJPdZvmdrJAMHeV-FYAyagqCvLjt8g/edit?usp=sharing>
