@@ -1,13 +1,13 @@
 # Development Process
 
-We want to stablize development process using feature branch, pull request, and merge. So, We create new feature branches off the dev branch and merge to the dev branch
+We want to stablize development process using feature branches, pull request, and merge. So, We create new feature branches off of the dev branch and merge to the dev branch
 
 branches:
-`main`: stable product branch
-`dev`: default branch for development
+    * `main`: stable product branch
+    * `dev`: default branch for development
 
-
-## intialization
+\
+## Intialization
 
 to clone the repo & track remote branches:
 
@@ -18,8 +18,8 @@ git switch main
 git switch dev
 ```
 
-
-## creating new feature branch
+\
+## Creating new feature branch
 
 to create a new branch to develop new feature
 ```
@@ -29,10 +29,12 @@ git fetch
 git checkout -b <feature name> dev
 ```
 
+\
 ***Now you develop the feature!***
+\
 
-
-## committing to the feature branch
+\
+## Committing to the feature branch
 
 to commit changes to the branch:
 ```
@@ -47,7 +49,8 @@ git push -u origin <feature name>
 
 > let's commit small and often
 
-## creating pull request
+\
+## Creating pull request
 
 1. go to our GitHub repository
 2. go to Pull requests tab
@@ -57,7 +60,8 @@ git push -u origin <feature name>
 
 If there is a `merge conflict` we can resolve as a team. If not, review can be done quick.
 
-## deleting the feature branch
+\
+## Deleting the feature branch
 
 After merging, we can delete the feature branch
 
@@ -74,5 +78,6 @@ git checkout dev
 git branch -d <feature name>
 ```
 
+\
 # Project Proposal
 <https://docs.google.com/document/d/1YZhjfzQi5ABrWiJPdZvmdrJAMHeV-FYAyagqCvLjt8g/edit?usp=sharing>
