@@ -5,7 +5,7 @@ We want to stablize development process using feature branches, pull request, an
 branches:
 * `main`: stable product branch
 * `dev`: default branch for development
-* `feature branches`: you will create these off of the `dev` and merge to `dev`
+* `feature branches`: you will create these off of the `dev` and merge to `dev` with corresponding names of the feature
 
 ***
 ## Intialization
