@@ -1,10 +1,11 @@
 # Development Process
 
-We want to stablize development process using feature branches, pull request, and merge. So, We create new feature branches off of the dev branch and merge to the dev branch
+We want to stablize development process using feature branches, pull request, and merge. So, we create new feature branches off of the dev branch and merge to the dev branch
 
 branches:
 * `main`: stable product branch
 * `dev`: default branch for development
+* `feature branches`: you will create these off of the `dev` and merge to `dev`
 
 ***
 ## Intialization
@@ -53,7 +54,7 @@ git push -u origin <feature name>
 1. go to our GitHub repository
 2. go to Pull requests tab
 3. click `New pull request`
-4. set **base: dev** and **compare: feature branch**
+4. set `base: dev` and `compare: feature branch`
 5. click `Create pull request`
 
 If there is a `merge conflict` we can resolve as a team. If not, review can be done quick.
