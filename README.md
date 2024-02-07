@@ -30,7 +30,7 @@ git fetch
 git checkout -b <feature name> dev
 ```
 
-***<p align="center">You can now develop your feature!</p>***
+***<h3 align="center">You can now develop your feature!</h3>***
 
 ***
 ## Committing to the feature branch
