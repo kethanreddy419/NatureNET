@@ -1,3 +1,5 @@
-yolov8n.pt
-runs
 .DS_Store
+
+yolov8*
+runs
+dangerous-animals-*
