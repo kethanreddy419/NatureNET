@@ -1,5 +1,6 @@
 import cv2
 import os
+import requests
 
 def capture_frames():
     save_dir = "captured_frames"
@@ -23,10 +24,20 @@ def capture_frames():
                 print("Error: Could not read frame.")
                 break
             
-            if frame_count % 10 == 0:
+            if frame_count % 100 == 0:
                 frame_name = os.path.join(save_dir, f"frame_{frame_count}.jpg")
                 cv2.imwrite(frame_name, frame)
                 print(f"Saved {frame_name}")
+
+                upload_url = "http://127.0.0.1:5000/upload"
+                files = {'file': open(frame_name, 'rb')}
+                response = requests.post(upload_url, files=files)
+
+                if response.status_code == 200:
+                    print("Frame processed successfully")
+                else:
+                    print(f"Error processing frame: {response.text}")
+
             
             frame_count += 1
             

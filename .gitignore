@@ -3,3 +3,9 @@
 yolov8*
 runs
 dangerous-animals-*
+
+/venv
+/uploads
+/runs
+/static
+/Frame-Capturing/captured_frames
