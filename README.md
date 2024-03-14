@@ -80,3 +80,11 @@ git branch -d <feature name>
 ***
 # Project Proposal
 <https://docs.google.com/document/d/1YZhjfzQi5ABrWiJPdZvmdrJAMHeV-FYAyagqCvLjt8g/edit?usp=sharing>
+
+
+## Project Setup
+cd nature net
+npm install
+
+## Running the project
+npm start
