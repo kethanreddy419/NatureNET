@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 # Load a model
 # model = YOLO('path/to/best.pt')  # Load a custom model
-model = YOLO('yolov8n.pt')  # Load a pre-trained model
+model = YOLO('best.pt')  # Load a pre-trained model
 
 # Specify test data
 folder_path = './cv_animal/test_data/'
