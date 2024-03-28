@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
-import GoogleOAuth from './GoogleOAuth'; // Adjust the path as needed
 import lockIcon from './lock.png'
 import { GoogleLogin } from '@react-oauth/google';
 
