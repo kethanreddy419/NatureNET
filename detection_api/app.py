@@ -78,5 +78,11 @@ def upload_file():
 
     return render_template('upload.html')
 
+@app.route('/images')
+def image_gallery():
+    static_folder = os.path.join(os.getcwd(), 'static')
+    image_list = [filename for filename in os.listdir(static_folder) if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+    return render_template('images.html', image_list=image_list)
+
 if __name__ == '__main__':
     app.run(debug=True)
