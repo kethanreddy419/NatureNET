@@ -10,36 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
-  username String 
-  email String
-  name String
-  phoneNumber String
-  animals Animal[]
-  logs Log[] 
+model User {
+  id          Int      @id @default(autoincrement())
+  username    String
+  email       String   @unique
+  phoneNumber String   @default("")
+  animals     Animal[]
+  logs        Log[]
 }
 
-model Animal{
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId],references: [id])
-  userId Int
-  name String
+model Animal {
+  id          Int    @id @default(autoincrement())
+  user        User   @relation(fields: [userId], references: [id])
+  userId      Int
+  name        String
   threatLevel String
-  logs Log[] 
-
+  logs        Log[]
 }
 
-model Log{
-  id Int @id @default(autoincrement())
-  timestamp String
-  image String
-  imageSize Int
-  boundingBoxCoordinates Int
-  user User @relation(fields: [userId],references: [id])
-  userId Int
-  animal Animal @relation(fields: [animalId],references: [id])
-  animalId Int
-
+model Log {
+  id                     Int      @id @default(autoincrement())
+  timestamp              DateTime @default(now())
+  image                  String
+  imageSize              String // [x,y]
+  boundingBoxCoordinates String // [x1, y1, x2, y2]
+  user                   User     @relation(fields: [userId], references: [id])
+  userId                 Int
+  animal                 Animal   @relation(fields: [animalId], references: [id])
+  animalId               Int
 }
-
