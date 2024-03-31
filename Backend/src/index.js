@@ -1,14 +1,23 @@
 import express from "express";
+import fileUpload from "express-fileupload";
 import { prisma } from "../prisma.config.js";
 import userRouter from "./controller/user.js";
+import logRouter from "./controller/log.js";
+import uploadRouter from "./controller/upload.js";
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use("/user", userRouter);
+app.use(fileUpload());
+app.use(express.static("public"));
 
-app.get("/", (req, res) => {
+app.use("/upload", uploadRouter);
+app.use("/user", userRouter);
+app.use("/log", logRouter);
+
+app.post("/", (req, res) => {
+  console.log(req.files);
   res.send("Hello World!");
 });
 
@@ -30,11 +39,12 @@ app.listen(port, () => {
  *   Sign up: frontend sends the data and we sign the user up into the db
  *            Put all 5 animals into their array
  * Task:
- *   Post logs:
+ *   Post log:
  *        We send the s3 link, bounding box, animal id and user id to the request
+ *   Get log:
  * Task :
  *   Get req:
- *        Pull the data based of the user, getting the logs
+ *        Pull the data based on the user, getting the logs
  * Task:
  *   Update phone number and threat level
  *
