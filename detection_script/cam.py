@@ -1,12 +1,9 @@
 import cv2
-import os
 import requests
+import os
+from datetime import datetime
 
 def capture_frames():
-    save_dir = "captured_frames"
-    if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
-    
     cap = cv2.VideoCapture(0)
     
     if not cap.isOpened():
@@ -25,20 +22,23 @@ def capture_frames():
                 break
             
             if frame_count % 100 == 0:
-                frame_name = os.path.join(save_dir, f"frame_{frame_count}.jpg")
-                cv2.imwrite(frame_name, frame)
-                print(f"Saved {frame_name}")
-
+                # Convert frame to JPEG format in memory
+                _, img_encoded = cv2.imencode('.jpg', frame)
+                
+                # Generate filename with date and time
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"frame_{timestamp}.jpg"
+                
+                # Send frame data to API route
                 upload_url = "http://127.0.0.1:5000/upload"
-                files = {'file': open(frame_name, 'rb')}
+                files = {'file': (filename, img_encoded.tostring(), 'image/jpeg')}
                 response = requests.post(upload_url, files=files)
-
+                
                 if response.status_code == 200:
                     print("Frame processed successfully")
                 else:
                     print(f"Error processing frame: {response.text}")
 
-            
             frame_count += 1
             
             cv2.imshow('Frame', frame)
