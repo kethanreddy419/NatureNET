@@ -10,6 +10,17 @@ export const getUserByEmail = async (email) => {
   return user;
 };
 
+export const updateUserPhoneNumber = async (userId, phoneNumber) => {
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      phoneNumber,
+    },
+  });
+};
+
 export const createUser = async (data) => {
   const { username, email, phoneNumber } = data;
 

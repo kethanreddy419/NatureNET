@@ -42,6 +42,7 @@ app.listen(port, () => {
  *   Post log:
  *        We send the s3 link, bounding box, animal id and user id to the request
  *   Get log:
+ *
  * Task :
  *   Get req:
  *        Pull the data based on the user, getting the logs

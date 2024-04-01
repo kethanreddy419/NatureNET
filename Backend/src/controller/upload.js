@@ -1,6 +1,16 @@
 import express from "express";
 import { supabase } from "../../supabase.config.js";
 
+/**
+ *
+ * const formData = new FormData();
+ * formData.append("image", file)
+ * fetch("http://localhost:3000/upload", {
+ *   body:formData
+ *  })
+ *
+ */
+
 const router = express.Router();
 
 router.post("/", async (req, res) => {
