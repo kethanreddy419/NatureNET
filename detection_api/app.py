@@ -4,11 +4,9 @@ import os
 import torch
 from ultralytics import YOLO
 import shutil
+import numpy as np
 
 app = Flask(__name__)
-
-# Set the path to the YOLO model
-model_path = '/nature-net/best.pt'
 
 # Set the upload folder
 UPLOAD_FOLDER = 'uploads'
@@ -32,14 +30,20 @@ def predict_with_yolo(image_path):
     results = model(image_path, save=True)
 
     # Get the path of the analyzed image for the first result
+    # Eventually, check to see if images have bounding boxes, and if they do, insert
+    # them into the database along with the coordinates of the bounding box.
+    # Eventually set save=False in the modeling process. Images will only be sent
+    # to the uploads folder. Somehow delete/ dont save images w/o bounding box
     result = results[0]
+    coordinates = result.boxes.xyxy.numpy()
+    print(coordinates)
     if(len(result.boxes.conf) != 0):
         print('confidence', int(result.boxes.conf[0]))
     if(len(result.boxes.conf) != 0 and int(result.boxes.conf[0] > 0.5)):
         save_dir = result.save_dir
         image_name = os.path.basename(image_path)  # Get the base name of the original image
         analyzed_image_path = os.path.join(save_dir, image_name)  # Combine save_dir and image_name
-
+        print("\n" + analyzed_image_path + "\n")
         return(analyzed_image_path)
     else: return None
 
