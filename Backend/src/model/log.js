@@ -1,0 +1,40 @@
+import { prisma } from "../../prisma.config.js";
+
+export const createLog = async (data) => {
+  let { image, imageSize, boundingBoxCoordinates, userId, animalId } = data;
+
+  imageSize = JSON.stringify(imageSize);
+  boundingBoxCoordinates = JSON.stringify(boundingBoxCoordinates);
+
+  const log = await prisma.log.create({
+    data: {
+      boundingBoxCoordinates,
+      image,
+      imageSize,
+      animalId,
+      userId,
+    },
+  });
+
+  return log;
+};
+
+export const getLogs = async (userId) => {
+  const logs = await prisma.log.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  return logs;
+};
+
+export const getLog = async (id) => {
+  const log = await prisma.log.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  return log;
+};
