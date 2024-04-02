@@ -5,15 +5,27 @@ import SettingsIcon from './settings.png'; // Ensure this path is correct
 import LivestreamIcon from './livestream.png';
 import HomeIcon from './home.png';
 import Logo from './logo.png'
+import { useUser } from './UserContext'; // Import useUser
+import { googleLogout } from '@react-oauth/google';
+
+
 
 
 function Settings() {
+
+    const { profile, setProfile } = useUser(); // Destructure setProfile from context
+
 
     const [password, setPassword] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [threatLevel, setThreatLevel] = useState('');
     const navigate = useNavigate();
 
+    const logOut = () => {
+        googleLogout(); // This logs the user out of Google
+        setProfile(null); // This sets the profile state to null in your context
+        navigate('/'); // Optionally navigate the user to the home page or login page
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -46,6 +58,9 @@ function Settings() {
 
             <div className="settings-container">
                 <h2 className="settings-title">Settings</h2>
+                {profile && (
+                    <p>Email: {profile.email}</p> // Display the user's email
+                )}
                 <form onSubmit={handleSubmit} className="settings-form">
                     <div className="input-group">
                         <label htmlFor="password" className="input-label">Change Password</label>
@@ -61,6 +76,8 @@ function Settings() {
                     </div>
                     <button type="button" onClick={handleConfirm} className="confirm-button">Confirm</button>
                     <button type="button" className="AccountDelete-button">DELETE ACCOUNT</button>
+                    <button onClick={logOut}>Log out</button> {/* Add this log out button */}
+
                 </form>
             </div>
         </div>
