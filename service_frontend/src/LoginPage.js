@@ -14,6 +14,7 @@ function LoginPage() {
 
     useEffect(() => {
         if (user && user.access_token) {
+            console.log(user.access_token)
             axios
                 .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
                     headers: {
@@ -22,10 +23,28 @@ function LoginPage() {
                     }
                 })
                 .then((res) => {
-                    setProfile(res.data); // Store user profile information in context
-                    navigate('/logs');
+                    const userProfile = res.data;
+                    setProfile(userProfile); // Store user profile information in context
+
+                    // Save user email in local storage for later use
+                    localStorage.setItem('userEmail', userProfile.email);
+
+                    const postData = {
+                        email: userProfile.email,
+                        username: userProfile.name,
+                        phone: 'xxx' // Placeholder phone number
+                    };
+
+                    return axios.post('http://localhost:3000/user/', postData);
                 })
-                .catch((err) => console.log(err));
+                .then(() => {
+                    navigate('/logs'); // Navigate after the post request is successful
+                })
+                .catch((err) => {
+                    console.log(err);
+
+                    navigate('/logs');
+                });
         }
     }, [user, navigate, setProfile]);
 

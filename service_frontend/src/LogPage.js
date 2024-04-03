@@ -1,48 +1,78 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './LogPage.css';
-import SettingsIcon from './settings.png'; // Ensure this path is correct
+import SettingsIcon from './settings.png';
 import LivestreamIcon from './livestream.png';
 import HomeIcon from './home.png';
-import Logo from './logo.png'
+import Logo from './logo.png';
 
 function LogPage() {
     const navigate = useNavigate();
+    const [logs, setLogs] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleSettings = () => {
-        console.log("Going to settings page!");
-        navigate('/settings');
-    };
+    useEffect(() => {
+        const fetchLogs = async () => {
+            setIsLoading(true);
+            setError('');
+            try {
+                const userId = 5;
+                const response = await axios.get('http://localhost:3000/log', { headers: { 'user-id': userId } });
+                setLogs(response.data);
+            } catch (error) {
+                console.error('Error fetching logs:', error);
+                setError('Failed to fetch logs.');
+            }
+            setIsLoading(false);
+        };
 
-    const handleLivestream = () => {
-        console.log("Going to livestream page!");
-        navigate('/livestream');
-    }
+        fetchLogs();
+    }, []);
+
+    const handleSettings = () => navigate('/settings');
+    const handleLivestream = () => navigate('/livestream');
 
     return (
         <div className="header-container">
             <div className="title-settings">
-                <img src={Logo} alt="Logo" className='logo'></img>
-                <div className="title-space"></div> {/* Left spacer */}
-                <div className="title-container"><h2 className="log-title">NatureNet</h2></div> {/* Title */}
+                <img src={Logo} alt="Logo" className="logo" />
+                <div className="title-space"></div>
+                <div className="title-container"><h2 className="log-title">NatureNet</h2></div>
                 <div className="icons-container">
                     <img src={SettingsIcon} alt="Settings" className="nav-icon" onClick={handleSettings} />
                     <img src={LivestreamIcon} alt="Livestream" className="nav-icon" onClick={handleLivestream} />
-                    <img src={HomeIcon} alt="Home" className='nav-icon' />
+                    <img src={HomeIcon} alt="Home" className="nav-icon" />
                 </div>
             </div>
-            <div className="log">
-                <div className="log-items">
-                    <div className="input-item">
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" />
-                    </div>
-                    <div className="input-item">
-                        <label htmlFor="time">Time:</label>
-                        <input type="text" id="time" />
-                    </div>
+
+            {isLoading ? (
+                <p>Loading logs...</p>
+            ) : error ? (
+                <p>{error}</p>
+            ) : logs.length > 0 ? (
+                <div className="logs-container">
+                    {logs.map(log => (
+                        <div key={log.id} className="log-item">
+                            <div className="log-info">
+                                <div className="left-info">
+                                    <div>ID: {log.id}</div>
+                                    {/* Adjust according to your log object structure */}
+                                    <div>Timestamp: {log.timestamp}</div>
+                                    <div>User ID: {log.userId}</div>
+                                    <div>Animal ID: {log.animalId}</div>
+                                </div>
+                                <div className="right-info">
+                                    <img src={log.image} alt="Log" />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </div>
+            ) : (
+                <p>No logs found.</p>
+            )}
         </div>
     );
 }

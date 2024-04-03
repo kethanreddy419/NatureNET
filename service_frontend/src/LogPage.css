@@ -25,11 +25,72 @@
     /* Adds some space to the right of the logo */
 }
 
-.log-items {
+.logs-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    /* Aligns input items to the left */
+    align-items: center;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    max-height: 500px;
+    /* Set a fixed maximum height */
+    width: calc(100% - 120px);
+    /* Adjust width to be less than 100% to allow space */
+    margin: 0 60px;
+    /* Adds 20px space on the left and right */
+    padding: 10px 0;
+    /* Optional: Adds some vertical padding */
+    background-color: rgba(242, 242, 242, 0.5);
+    /* Light gray background with transparency */
+    /* Light gray background color */
+}
+
+.log-item {
+    background-color: white;
+    /* Set the background color to white */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 10px;
+    width: 60%;
+    /* Increase the width to make logs wider */
+    display: flex;
+    /* Use flexbox to align items */
+    justify-content: space-between;
+    /* Space out the child elements */
+}
+
+.log-item .log-info {
+    display: flex;
+    flex-grow: 1;
+    /* Allow log-info to take up available space */
+    justify-content: space-between;
+    /* Space out the left and right info */
+}
+
+.log-item .log-info .left-info {
+    padding-right: 20px;
+    /* Maintain the space between left info and the image */
+    display: flex;
+    /* Enable Flexbox */
+    flex-direction: column;
+    /* Stack children vertically */
+    justify-content: center;
+    /* Center content vertically */
+}
+
+.log-item .log-info .right-info {
+    flex-shrink: 0;
+    /* Prevent the right-info from shrinking */
+    /* Right-info contains the image, positioned on the far right */
+}
+
+.log-item img {
+    width: auto;
+    /* Adjust based on your image's aspect ratio */
+    height: 200px;
+    /* Example height, adjust as needed */
+    /* Image is contained in right-info, which is positioned on the far right */
 }
 
 .input-item {

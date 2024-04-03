@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser, getUserByEmail,updateUserPhoneNumber } from "../model/user.js";
+import { createUser, getUserByEmail, updateUserPhoneNumber } from "../model/user.js";
 
 const router = express.Router();
 
@@ -27,9 +27,20 @@ router.put('/:userId/phone', async (req, res) => {
 });
 
 
+router.post('/userIdFromEmail', async (req, res) => {
+  const { email } = req.body;
 
+  if (!email) {
+    return res.status(400).json({ error: "Email does not exist" });
+  }
 
-
+  try {
+    const userId = await getUserByEmail(email);
+    res.json({ id: userId.id }); // Send JSON response
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 router.post("/", async (req, res) => {
   const data = req.body;
