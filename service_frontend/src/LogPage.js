@@ -14,23 +14,42 @@ function LogPage() {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchLogs = async () => {
+        const fetchUserIdAndLogs = async () => {
             setIsLoading(true);
             setError('');
+
             try {
-                const userId = 5;
-                const response = await axios.get('http://localhost:3000/log', { headers: { 'user-id': userId } });
-                setLogs(response.data);
+                // Retrieve user email from local storage
+                const userEmail = localStorage.getItem('userEmail');
+
+                // Check if userEmail exists
+                if (!userEmail) {
+                    throw new Error('User email not found.');
+                }
+
+                // Fetch the user ID from the email using a GET request with query parameters
+                const userIdResponse = await axios.get(`http://localhost:3000/userIdFromEmail?email=${userEmail}`);
+
+                // Check if userIdResponse has data and an id
+                if (userIdResponse.data && userIdResponse.data.id) {
+                    const userId = userIdResponse.data.id;
+
+                    // Fetch logs with the obtained userId
+                    const logsResponse = await axios.get('http://localhost:3000/log', { headers: { 'user-id': userId } });
+                    setLogs(logsResponse.data);
+                } else {
+                    throw new Error('User ID not found for the given email.');
+                }
             } catch (error) {
-                console.error('Error fetching logs:', error);
-                setError('Failed to fetch logs.');
+                console.error('Error fetching user ID or logs:', error);
+                setError('Failed to fetch user ID or logs.');
             }
+
             setIsLoading(false);
         };
 
-        fetchLogs();
+        fetchUserIdAndLogs();
     }, []);
-
     const handleSettings = () => navigate('/settings');
     const handleLivestream = () => navigate('/livestream');
 

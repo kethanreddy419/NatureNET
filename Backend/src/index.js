@@ -51,6 +51,7 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
