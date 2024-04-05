@@ -8,6 +8,27 @@ import animalRouter from "./controller/animal.js";
 
 
 const app = express();
+
+app.use((req, res, next) => {
+  // Allow any domain to access your API
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Allow specific headers (including your custom 'user-id' header)
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, user-id');
+
+  // Allow specific HTTP methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Check if the request is a preflight request and respond accordingly
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
+
+
 const port = 3000;
 
 app.use(express.json());
@@ -29,6 +50,7 @@ app.get("/users", async (req, res) => {
   console.log(users);
   res.json(users);
 });
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

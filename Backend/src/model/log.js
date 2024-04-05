@@ -1,7 +1,7 @@
 import { prisma } from "../../prisma.config.js";
 
 export const createLog = async (data) => {
-  let { image, imageSize, boundingBoxCoordinates, userId, animalId } = data;
+  let { image, imageSize, boundingBoxCoordinates, userId, animalId, animalName } = data;
 
   imageSize = JSON.stringify(imageSize);
   boundingBoxCoordinates = JSON.stringify(boundingBoxCoordinates);
