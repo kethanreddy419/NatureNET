@@ -14,8 +14,17 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def process_response(response_text, coordinates, image_size):
+def process_response(response_text, coordinates, image_size, animal_name):
     userId = 5
+
+    log_data = {
+        "userId": userId,
+        "animalName": animal_name
+    }
+
+    animal_user_id = requests.post('http://localhost:3000/animal/animalId', json=log_data)
+
+    animal_id = animal_user_id.text.split(":")[-1].strip()
 
     # Parse JSON response
     response_data = json.loads(response_text)
@@ -31,7 +40,7 @@ def process_response(response_text, coordinates, image_size):
         "imageSize": image_size_str,
         "boundingBoxCoordinates": bounding_box_coordinates_str,
         "userId": userId,  # Replace with actual user ID
-        "animalId": 2,  # Replace with actual animal ID
+        "animalId": int(animal_id),  # Replace with actual animal ID
     }
 
     # Send POST request to localhost:3000/log
@@ -88,7 +97,7 @@ def predict_with_yolo(image_path):
         # Print response
         # print('Response:', response.text)
 
-        process_response(response.text, coordinates, [640, 480])
+        process_response(response.text, coordinates, [640, 480], animal)
 
         return(analyzed_image_path)
     else: return None
