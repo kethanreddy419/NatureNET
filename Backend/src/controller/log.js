@@ -6,7 +6,8 @@ const router = express.Router();
 // Route /log/* here
 
 router.get("/", async (req, res) => {
-  const userId = req.body.userId;
+  const userId = req.headers["user-id"];
+
   if (!userId) return res.status(400).send("No User id provided");
 
   const logs = await getLogs(parseInt(userId));
@@ -16,7 +17,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   // Authenticate the user
-  console.log(req.body)
+
   const log = await createLog(req.body);
 
   return res.status(200).json(log);
