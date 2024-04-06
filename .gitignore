@@ -5,9 +5,10 @@ runs
 dangerous-animals-*
 
 /venv
-/uploads
+/uploads/.
 /runs
-/static
+/static/.
 /Frame-Capturing/captured_frames
 best.pt
 dev.db
+Backend/prisma/dev.db

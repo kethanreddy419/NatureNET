@@ -5,12 +5,50 @@ import torch
 from ultralytics import YOLO
 import shutil
 import numpy as np
+import requests
+import json
 
 app = Flask(__name__)
 
 # Set the upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def process_response(response_text, coordinates, image_size, animal_name):
+    userId = 5
+
+    log_data = {
+        "userId": userId,
+        "animalName": animal_name
+    }
+
+    animal_user_id = requests.post('http://localhost:3000/animal/animalId', json=log_data)
+
+    animal_id = animal_user_id.text.split(":")[-1].strip()
+
+    # Parse JSON response
+    response_data = json.loads(response_text)
+    
+    # Extract necessary data
+    image_url = response_data['url']
+    image_size_str = f"[{image_size[0]}, {image_size[1]}]"
+    bounding_box_coordinates_str = json.dumps(coordinates.tolist())
+
+    # Construct log data
+    log_data = {
+        "image": image_url,
+        "imageSize": image_size_str,
+        "boundingBoxCoordinates": bounding_box_coordinates_str,
+        "userId": userId,  # Replace with actual user ID
+        "animalId": int(animal_id),  # Replace with actual animal ID
+    }
+
+    # Send POST request to localhost:3000/log
+    log_url = 'http://localhost:3000/log'
+    response = requests.post(log_url, json=log_data)
+
+    # Print response from log endpoint
+    # print('Response from log endpoint:', response.text)
 
 def predict_with_yolo(image_path):
     # Load a pre-trained model
@@ -34,16 +72,33 @@ def predict_with_yolo(image_path):
     # them into the database along with the coordinates of the bounding box.
     # Eventually set save=False in the modeling process. Images will only be sent
     # to the uploads folder. Somehow delete/ dont save images w/o bounding box
+
     result = results[0]
     coordinates = result.boxes.xyxy.numpy()
-    print(coordinates)
-    if(len(result.boxes.conf) != 0):
-        print('confidence', int(result.boxes.conf[0]))
+    animal = ""
+    for r in results:
+        for box in r.boxes:
+            class_id = int(box.data[0][-1])
+            animal = model.names[class_id]
+
     if(len(result.boxes.conf) != 0 and int(result.boxes.conf[0] > 0.5)):
         save_dir = result.save_dir
         image_name = os.path.basename(image_path)  # Get the base name of the original image
         analyzed_image_path = os.path.join(save_dir, image_name)  # Combine save_dir and image_name
-        print("\n" + analyzed_image_path + "\n")
+        #print("\n" + analyzed_image_path + "\n")
+
+        # Prepare data for upload
+        files = {'image': open(analyzed_image_path, 'rb')}
+
+        # Send POST request to localhost:3000/upload
+        upload_url = 'http://localhost:3000/upload'
+        response = requests.post(upload_url, files=files)
+
+        # Print response
+        # print('Response:', response.text)
+
+        process_response(response.text, coordinates, [640, 480], animal)
+
         return(analyzed_image_path)
     else: return None
 

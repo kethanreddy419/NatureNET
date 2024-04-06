@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 router.put('/:userId/phone', async (req, res) => {
   const { userId } = req.params;
   const { phoneNumber } = req.body;
-  // console.log(userId);
+  console.log(userId);
 
 
   if (!phoneNumber) {
