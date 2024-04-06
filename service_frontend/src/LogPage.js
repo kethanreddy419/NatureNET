@@ -44,7 +44,7 @@ function LogPage() {
           });
           setLogs(logsResponse.data);
         } else {
-          throw new Error("User ID not found for the given email.");
+          throw new Error("User ID not found for the given email."); 
         }
       } catch (error) {
         console.error("Error fetching user ID or logs:", error);
