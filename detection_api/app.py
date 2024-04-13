@@ -28,8 +28,8 @@ CARRIERS = {
 subject = "Test"
 body = "This is testing"
 # TODO: These needs to be implemented to get data from backend
-phone_number = "1231231234" 
-email = "emailaddress@gmail.com" 
+phone_number = "" # 1231231234 (10 number digits)
+email = "" # emailaddress@gmail.com
 
 
 def process_response(response_text, coordinates, image_size, animal_name):
