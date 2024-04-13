@@ -7,12 +7,30 @@ import shutil
 import numpy as np
 import requests
 import json
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
 # Set the upload folder
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# list of carriers for sms feature
+CARRIERS = {
+    "att": "@txt.att.net",
+    "tmobile": "@tmomail.net",
+    "verizon": "@vtext.com",
+    "sprint": "@messaging.sprintpcs.com"
+}
+
+# TODO: these needs to be implemented to be based on animal name, threat level, and time
+subject = "Test"
+body = "This is testing"
+# TODO: These needs to be implemented to get data from backend
+phone_number = "1231231234" 
+email = "emailaddress@gmail.com" 
+
 
 def process_response(response_text, coordinates, image_size, animal_name):
     userId = 5
@@ -49,6 +67,15 @@ def process_response(response_text, coordinates, image_size, animal_name):
 
     # Print response from log endpoint
     # print('Response from log endpoint:', response.text)
+    
+    # message alert
+    for key in CARRIERS:
+        carrier = CARRIERS[key]
+        send_alert(subject, body, phone_number + carrier)
+
+    # email alert
+    send_alert(subject, body, email)
+    
 
 def predict_with_yolo(image_path):
     # Load a pre-trained model
@@ -101,6 +128,23 @@ def predict_with_yolo(image_path):
 
         return(analyzed_image_path)
     else: return None
+
+def send_alert(subject, body, to):
+    user = "naturenet.alert@gmail.com"
+    password = "yqic pftp vhsk iylx"
+    
+    msg = EmailMessage()
+    msg.set_content(body)
+    msg['subject'] = subject
+    msg['to'] = to
+    msg['from'] = user
+    
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+    server.login(user, password)
+    server.send_message(msg)
+
+    server.quit()
 
 @app.route('/')
 def welcome():
