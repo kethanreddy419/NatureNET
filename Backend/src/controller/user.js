@@ -1,6 +1,6 @@
 import express from "express";
 
-import { createUser, getUserByEmail, updateUserPhoneNumber } from "../model/user.js";
+import { createUser, getActiveUser, getUserByEmail, updateUserPhoneNumber, userStatusUpdate } from "../model/user.js";
 
 const router = express.Router();
 
@@ -47,6 +47,35 @@ router.get('/userIdFromEmail', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
+});
+
+
+
+router.post('/status',async(req,res)=>{
+  const data = req.body;
+  console.log(data);
+  const {userId}=data;
+  if (!userId){
+    return res.status(400).send("User does not exist")
+  }
+
+  let status=await userStatusUpdate(userId);
+
+  res.status(200).json(status);  
+
+});
+
+
+
+router.get("/status",async(req,res)=>{
+  // const data = req.body;
+  console.log("HI")
+  let user=await getActiveUser();
+  console.log(user)
+  if (!user){
+    return res.status(400).send("No Active Users Found")
+  }
+  res.status(200).json(user);
 });
 
 router.post("/", async (req, res) => {
