@@ -37,6 +37,14 @@ function LoginPage() {
 
                     return axios.post('http://localhost:3000/user/', postData);
                 })
+                .then((response) => {
+                    // Make POST request to update user status
+                    const statusData = {
+                        userEmail: localStorage.getItem("userEmail")
+                    };
+    
+                    return axios.post('http://localhost:3000/user/status', statusData);
+                })
                 .then(() => {
                     navigate('/logs'); // Navigate after the post request is successful
                 })

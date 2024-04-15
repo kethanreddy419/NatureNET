@@ -51,19 +51,19 @@ router.get('/userIdFromEmail', async (req, res) => {
 
 
 
-router.post('/status',async(req,res)=>{
+router.post('/status', async (req, res) => {
   const data = req.body;
   console.log(data);
-  const {userId}=data;
-  if (!userId){
-    return res.status(400).send("User does not exist")
+  const { userEmail } = data;
+  if (!userEmail) {
+    return res.status(400).send("User email is required");
   }
 
-  let status=await userStatusUpdate(userId);
+  let status = await userStatusUpdate(userEmail);
 
-  res.status(200).json(status);  
-
+  res.status(200).json(status);
 });
+
 
 
 

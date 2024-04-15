@@ -19,19 +19,22 @@ export const updateUserPhoneNumber = async (userId, newPhoneNumber) => {
   return updatedUser;
 };
 
-export const userStatusUpdate = async (userId)=>{
-  const user= await prisma.user.findUnique({
-    where: {id:userId},
-  })
-  
+export const userStatusUpdate = async (userEmail) => {
+  // Set "Active" column to false for all users
+  await prisma.user.updateMany({
+    data: { Active: false }
+  });
 
-  const status= await prisma.user.update({
-    where: {id:userId},
-    data:{Active:!user.Active},
-  })
+  // Set "Active" column to true for the user with the specified email
+  const status = await prisma.user.update({
+    where: { email: userEmail },
+    data: { Active: true },
+  });
 
   return status;
-}
+};
+
+
 
 export const getActiveUser = async()=>{
   const status = await prisma.user.findMany({
