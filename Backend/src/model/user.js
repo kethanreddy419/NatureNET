@@ -10,6 +10,14 @@ export const getUserByEmail = async (email) => {
   return user;
 };
 
+export const getPhoneEmailById= async (userId)=>{
+  const user = await prisma.user.findUnique({
+    where:{id:userId}
+  })
+  console.log([user.email,user.phoneNumber])
+  return [user.email,user.phoneNumber];
+}
+
 export const updateUserPhoneNumber = async (userId, newPhoneNumber) => {
   console.log(userId,newPhoneNumber)
   const updatedUser = await prisma.user.update({

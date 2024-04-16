@@ -1,6 +1,6 @@
 import express from "express";
 
-import { createUser, getActiveUser, getUserByEmail, updateUserPhoneNumber, userStatusUpdate } from "../model/user.js";
+import { createUser, getActiveUser, getUserByEmail, updateUserPhoneNumber, userStatusUpdate,getPhoneEmailById } from "../model/user.js";
 
 const router = express.Router();
 
@@ -65,11 +65,27 @@ router.post('/status', async (req, res) => {
 });
 
 
+router.get('/phoneAndEmail',async(req,res)=>{
+  const data=req.body;
+  const {userId}=data;
+  
+  if (!userId){
+    return res.status(400).send("User Id not available");
+  }
+  
+  let temp= await getPhoneEmailById(userId);
+  let email=temp[0];
+  let phoneNumber=temp[1]
+  // console.log("stupid")
+
+  res.status(200).json(temp)
+
+});
 
 
 router.get("/status",async(req,res)=>{
   // const data = req.body;
-  console.log("HI")
+  // console.log("HI")
   let user=await getActiveUser();
   console.log(user)
   if (!user){
