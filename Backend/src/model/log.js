@@ -13,6 +13,7 @@ export const createLog = async (data) => {
       imageSize,
       animalId,
       userId,
+      animalName,
     },
   });
 

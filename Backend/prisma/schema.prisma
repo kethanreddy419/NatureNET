@@ -17,6 +17,7 @@ model User {
   phoneNumber String   @default("")
   animals     Animal[]
   logs        Log[]
+  Active      Boolean  @default(false)
 }
 
 model Animal {

@@ -1,0 +1,12 @@
+{
+  "name": "nature-net",
+  "version": "1.0.0",
+  "description": "We want to stablize development process using feature branches, pull request, and merge. So, we create new feature branches off of the dev branch and merge to the dev branch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

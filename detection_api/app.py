@@ -33,7 +33,9 @@ email = "" # emailaddress@gmail.com
 
 
 def process_response(response_text, coordinates, image_size, animal_name):
-    userId = 5
+    user_status_response = requests.get('http://localhost:3000/user/status')
+    user_status_data = user_status_response.json()
+    userId = user_status_data['id']
 
     log_data = {
         "userId": userId,
@@ -69,12 +71,12 @@ def process_response(response_text, coordinates, image_size, animal_name):
     # print('Response from log endpoint:', response.text)
     
     # message alert
-    for key in CARRIERS:
-        carrier = CARRIERS[key]
-        send_alert(subject, body, phone_number + carrier)
+    # for key in CARRIERS:
+    #     carrier = CARRIERS[key]
+    #     send_alert(subject, body, phone_number + carrier)
 
-    # email alert
-    send_alert(subject, body, email)
+    # # email alert
+    # send_alert(subject, body, email)
     
 
 def predict_with_yolo(image_path):

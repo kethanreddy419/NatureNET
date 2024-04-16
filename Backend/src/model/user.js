@@ -10,6 +10,14 @@ export const getUserByEmail = async (email) => {
   return user;
 };
 
+export const getPhoneEmailById= async (userId)=>{
+  const user = await prisma.user.findUnique({
+    where:{id:userId}
+  })
+  console.log([user.email,user.phoneNumber])
+  return [user.email,user.phoneNumber];
+}
+
 export const updateUserPhoneNumber = async (userId, newPhoneNumber) => {
   console.log(userId,newPhoneNumber)
   const updatedUser = await prisma.user.update({
@@ -18,6 +26,33 @@ export const updateUserPhoneNumber = async (userId, newPhoneNumber) => {
   });
   return updatedUser;
 };
+
+export const userStatusUpdate = async (userEmail) => {
+  // Set "Active" column to false for all users
+  await prisma.user.updateMany({
+    data: { Active: false }
+  });
+
+  // Set "Active" column to true for the user with the specified email
+  const status = await prisma.user.update({
+    where: { email: userEmail },
+    data: { Active: true },
+  });
+
+  return status;
+};
+
+
+
+export const getActiveUser = async()=>{
+  const status = await prisma.user.findMany({
+    where:{Active: true},
+  })
+  // console.log(status)
+
+  return status[0];
+}
+
 
 
 
