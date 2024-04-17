@@ -24,14 +24,6 @@ CARRIERS = {
     "sprint": "@messaging.sprintpcs.com"
 }
 
-# TODO: these needs to be implemented to be based on animal name, threat level, and time
-subject = "Test"
-body = "This is testing"
-# TODO: These needs to be implemented to get data from backend
-phone_number = "" # 1231231234 (10 number digits)
-email = "" # emailaddress@gmail.com
-
-
 def process_response(response_text, coordinates, image_size, animal_name):
     user_status_response = requests.get('http://localhost:3000/user/status')
     user_status_data = user_status_response.json()
@@ -67,16 +59,25 @@ def process_response(response_text, coordinates, image_size, animal_name):
     log_url = 'http://localhost:3000/log'
     response = requests.post(log_url, json=log_data)
 
-    # Print response from log endpoint
-    # print('Response from log endpoint:', response.text)
+    user_data = {
+        "userId": userId
+    }
     
-    # message alert
-    # for key in CARRIERS:
-    #     carrier = CARRIERS[key]
-    #     send_alert(subject, body, phone_number + carrier)
+    # TODO: these needs to be implemented to be based on animal name, threat level, and time
+    subject = "NatureNet Alert"
+    body = "A " + animal_name + " has been spotted on your camera."
+    # TODO: These needs to be implemented to get data from backend
+    phone_number = user_status_data['phoneNumber'] # 1231231234 (10 number digits)
+    email = user_status_data["email"] # emailaddress@gmail.com
 
-    # # email alert
-    # send_alert(subject, body, email)
+    # message alert
+    if phone_number != "":
+        for key in CARRIERS:
+            carrier = CARRIERS[key]
+            send_alert(subject, body, phone_number + carrier)
+
+    # email alert
+    send_alert(subject, body, email)
     
 
 def predict_with_yolo(image_path):
@@ -174,7 +175,7 @@ def upload_file():
                 analyzed_image_path = str(prediction_path).replace('\\', '/')
                 analyzed_filename = secure_filename(file.filename)
                 analyzed_static_path = os.path.join('static', analyzed_filename)
-                shutil.copy(analyzed_image_path, analyzed_static_path)
+                #shutil.copy(analyzed_image_path, analyzed_static_path)
 
                 # Display the analyzed image on the results page
                 return render_template('result.html', image_path=analyzed_filename)
