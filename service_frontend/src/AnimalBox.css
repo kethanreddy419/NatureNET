@@ -1,0 +1,22 @@
+.animal-box {
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px;
+    text-align: center;
+}
+
+.animal-image {
+    width: 50%;
+    height: 50%;
+    /* Set a fixed height */
+    object-fit: cover;
+    /* Ensures the image covers the area without distorting */
+    border-radius: 8px;
+}
+
+.animal-info {
+    margin-top: 8px;
+}

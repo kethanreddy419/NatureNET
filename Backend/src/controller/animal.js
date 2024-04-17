@@ -22,6 +22,7 @@ router.put("/:animalId/threatLevel", async (req, res) => {
   }
 });
 
+
 router.post("/animalId", async (req, res) => {
   const { animalName, userId } = req.body;
 
